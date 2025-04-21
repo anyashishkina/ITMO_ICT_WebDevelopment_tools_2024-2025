@@ -1,0 +1,11 @@
+site_name: "Shishkina Anna, documentation"
+theme:
+  name: 'material'
+  palette:
+    primary: 'pink'
+    accent: 'pink'
+
+nav:
+  - Home: index.md
+  - Lab №1:
+    - Task : Lr1/task.md
