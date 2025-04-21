@@ -4,6 +4,11 @@
 
 - Язык реализации: Python
 
+## Практики
+- Pr 1.1 <https://github.com/anyashishkina/ITMO_ICT_WebDevelopment_tools_2024-2025/tree/main/students/k3343/Shishkina_Anna/pr1.1>
+- Pr 1.2 <https://github.com/anyashishkina/ITMO_ICT_WebDevelopment_tools_2024-2025/tree/main/students/k3343/Shishkina_Anna/pr1.2>
+- Pr 1.3 <https://github.com/anyashishkina/ITMO_ICT_WebDevelopment_tools_2024-2025/tree/main/students/k3343/Shishkina_Anna/pr1.3>
+
 ## Эндпоинты
 - Регистрация, вход, получение информации о пользователе, смена пароля
 ![Авторизация юзера](images/auth.png)
