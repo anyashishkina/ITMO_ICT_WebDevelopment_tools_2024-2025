@@ -1,0 +1,4 @@
+sqlmodel
+aiohttp
+beautifulsoup4
+requests

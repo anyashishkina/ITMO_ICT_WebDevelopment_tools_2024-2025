@@ -1,0 +1,66 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fastapi_app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - parser
+      - db
+      - redis         
+    environment:
+      - DB_ADMIN=postgresql://annashishkina:annashishkina@db/lab1_db
+      - REDIS_URL=redis://redis:6379/0   
+    networks:
+      - app-network
+
+  celery_worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: celery_worker
+    depends_on:
+      - redis
+      - db
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+    networks:
+      - app-network
+    command: celery -A celery_app worker --loglevel=info
+
+  parser:
+    build:
+      context: ./parser_app
+      dockerfile: Dockerfile
+    container_name: parser_service
+    ports:
+      - "8001:8001"
+    networks:
+      - app-network
+
+  db:
+    image: postgres:15
+    container_name: postgres_container
+    environment:
+      POSTGRES_USER: annashishkina
+      POSTGRES_PASSWORD: annashishkina
+      POSTGRES_DB: lab1_db
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+
+  redis:
+    image: redis:7
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+
+networks:
+  app-network:
