@@ -464,6 +464,24 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Запуск
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Эндпоинты
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -519,6 +537,24 @@
   <a href="#2-3" class="md-nav__link">
     <span class="md-ellipsis">
       Задача 2, 3
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Запуск
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Эндпоинты
     </span>
   </a>
   
@@ -630,6 +666,75 @@ celery[redis]==5.3.1
 requests
 beautifulsoup4==4.12.3
 </code></pre>
+<p>docker-compose.yml  </p>
+<pre><code class="language-python">version: &quot;3.9&quot;
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fastapi_app
+    ports:
+      - &quot;8000:8000&quot;
+    depends_on:
+      - parser
+      - db
+      - redis         
+    environment:
+      - DB_ADMIN=postgresql://annashishkina:annashishkina@db/lab1_db
+      - REDIS_URL=redis://redis:6379/0   
+    networks:
+      - app-network
+
+  celery_worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: celery_worker
+    depends_on:
+      - redis
+      - db
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - DB_ADMIN=postgresql://annashishkina:annashishkina@db/lab1_db
+    networks:
+      - app-network
+    command: celery -A celery_app worker --loglevel=info
+
+  parser:
+    build:
+      context: ./parser_app
+      dockerfile: Dockerfile
+    container_name: parser_service
+    ports:
+      - &quot;8001:8001&quot;
+    networks:
+      - app-network
+
+  db:
+    image: postgres:15
+    container_name: postgres_container
+    environment:
+      POSTGRES_USER: annashishkina
+      POSTGRES_PASSWORD: annashishkina
+      POSTGRES_DB: lab1_db
+    ports:
+      - &quot;5432:5432&quot;
+    networks:
+      - app-network
+
+  redis:
+    image: redis:7
+    container_name: redis
+    ports:
+      - &quot;6379:6379&quot;
+    networks:
+      - app-network
+
+networks:
+  app-network:
+</code></pre>
 <h2 id="2-3">Задача 2, 3</h2>
 <p>Вызов парсера из FastAPI через очередь  </p>
 <pre><code class="language-python">@app.post(&quot;/parse_async&quot;)
@@ -680,6 +785,14 @@ def parse_url_task(url: str) -&gt; dict:
     except Exception as e:
         return {&quot;url&quot;: url, &quot;error&quot;: str(e)}
 </code></pre>
+<h2 id="_1">Запуск</h2>
+<pre><code class="language-python">docker-compose up --build 
+</code></pre>
+<h2 id="_2">Эндпоинты</h2>
+<p>1) Получение id задания после постановки в очередь<br />
+<img alt="" src="../images/task_id.png" /></p>
+<p>2) Получение статуса и результата задачи 
+<img alt="" src="../images/task_status.png" /></p>
 
 
 
