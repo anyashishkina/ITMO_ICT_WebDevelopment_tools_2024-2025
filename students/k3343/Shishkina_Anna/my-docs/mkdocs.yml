@@ -9,3 +9,8 @@ nav:
   - Home: index.md
   - Lab №1:
     - Task : Lr1/task.md
+  - Lab №2:
+    - Task 1 : Lr2/task2_1.md
+    - Task 2 : Lr2/task2_2.md
+  - Lab №3:
+    - Task : Lr3/task.md

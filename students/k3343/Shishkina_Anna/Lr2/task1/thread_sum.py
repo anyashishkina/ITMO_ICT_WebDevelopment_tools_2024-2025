@@ -4,7 +4,7 @@ import time
 def partial_sum(start, end, results, index):
     results[index] = sum(range(start, end))
 
-def calculate_sum_threading(n=100_000_000, num_threads=4):
+def calculate_sum_threading(n=10_00_000_000, num_threads=4):
     step = n // num_threads
     results = [0] * num_threads
     threads = []

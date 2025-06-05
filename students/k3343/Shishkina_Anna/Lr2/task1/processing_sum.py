@@ -4,7 +4,7 @@ import time
 def partial_sum(start, end, results, index):
     results[index] = sum(range(start, end))
 
-def calculate_sum_multiprocessing(n=100_000_000, num_processes=4):
+def calculate_sum_multiprocessing(n=10_00_000_000, num_processes=4):
     step = n // num_processes
     manager = Manager()
     results = manager.list([0] * num_processes)

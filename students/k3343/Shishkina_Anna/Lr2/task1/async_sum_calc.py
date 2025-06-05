@@ -4,7 +4,7 @@ import time
 async def partial_sum(start, end):
     return sum(range(start, end))
 
-async def calculate_sum_async(n=100_000_000, num_tasks=4):
+async def calculate_sum_async(n=10_00_000_000, num_tasks=4):
     step = n // num_tasks
     tasks = []
     start_time = time.time()
